@@ -179,7 +179,7 @@ class AetherConfig
         }
     }
 
-    private function getSiteConfig($url)
+    public function getSiteConfig($url)
     {
         $this->doc = $this->loadDocFromFile($this->configFilePath);
 
