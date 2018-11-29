@@ -23,6 +23,7 @@ class SentryProvider extends Provider
             'prefixes' => [$projectRoot],
             'excluded_app_paths' => ["{$projectRoot}/vendor"],
             'trace' => true,
+            'release' => config('app.release'),
             'curl_method' => 'sync',
             'curl_ipv4' => false,
             'trust_x_forwarded_proto' => true,
