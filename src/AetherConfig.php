@@ -236,9 +236,6 @@ class AetherConfig
             echo "<html><body><h1>404 Not found</h1></body></html>";
 
             throw new Exception("Technical error. No resource found on this url: " . (string)$url . ", " . $e);
-        } catch (Exception $e) {
-            // This is expected
-            // Comment above was exceptionally not expected -- simeng 2011-10-10
         }
     }
 
