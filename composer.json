@@ -18,7 +18,7 @@
         "sentry/sentry": "1.10.*",
         "smarty/smarty": "3.1.*",
         "symfony/var-dumper": "~3.0|~4.0",
-        "vlucas/phpdotenv": "^2.4"
+        "vlucas/phpdotenv": "^3.4"
     },
     "require-dev": {
         "mockery/mockery": "^1.0",
@@ -29,10 +29,7 @@
         "psr-4": {
             "Aether\\": "./src"
         },
-        "files": [
-            "./src/class_aliases.php",
-            "./src/helpers.php"
-        ]
+        "files": ["./src/class_aliases.php", "./src/helpers.php"]
     },
     "autoload-dev": {
         "psr-4": {
@@ -40,10 +37,7 @@
             "Tests\\Fixtures\\": "./tests/Fixtures/src"
         }
     },
-    "bin": [
-        "./bin/updateLocales",
-        "./bin/aether"
-    ],
+    "bin": ["./bin/updateLocales", "./bin/aether"],
     "config": {
         "sort-packages": true
     }
