@@ -73,7 +73,13 @@ class Config extends Repository
         // `config` folder in our project.
 
         // First, we need to load the .env file.
-        $this->installDotenv($projectRoot);
+        $appEnv = env('APP_ENV', 'development');
+        if ($appEnv !== 'development') {
+            $envFile = '.env.' . $appEnv;
+        } else {
+            $envFile = '.env';
+        }
+        $this->installDotenv($projectRoot, $envFile);
 
         $config = [];
 
@@ -133,10 +139,10 @@ class Config extends Repository
      * @param  string $path
      * @return void
      */
-    private function installDotenv($path)
+    private function installDotenv($path, $envFile)
     {
         try {
-            (new Dotenv($path))->load();
+            (Dotenv::create($path))->load();
         } catch (InvalidPathException $e) {
             // Do nothing if the .env file is not present.
         }
