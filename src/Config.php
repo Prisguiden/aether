@@ -70,12 +70,13 @@ class Config extends Repository
         }
         $this->installDotenv($projectRoot, $envFile);
 
-        // If a `compiled.php` file exists, we'll use that. Should only be used
-        // in a production environment.
-        if (file_exists($compiled = $configPath.'/compiled.php')) {
-            $this->loadedFromCompiled = true;
+        // If a `compiled.php` file exists, we'll use that.
+        if ($appEnv === 'production') {
+            if (file_exists($compiled = $configPath.'/compiled.php')) {
+                $this->loadedFromCompiled = true;
 
-            return require $compiled;
+                return require $compiled;
+            }
         }
 
         // Otherwise, we'll need to load the configuration files from the
