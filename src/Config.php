@@ -61,6 +61,15 @@ class Config extends Repository
         $projectRoot = rtrim($projectRoot, '/');
         $configPath  = $projectRoot.'/config';
 
+        // First, we need to load the .env file.
+        $appEnv = env('APP_ENV', 'development');
+        if ($appEnv !== 'development') {
+            $envFile = '.env.' . $appEnv;
+        } else {
+            $envFile = '.env';
+        }
+        $this->installDotenv($projectRoot, $envFile);
+
         // If a `compiled.php` file exists, we'll use that. Should only be used
         // in a production environment.
         if (file_exists($compiled = $configPath.'/compiled.php')) {
@@ -71,15 +80,6 @@ class Config extends Repository
 
         // Otherwise, we'll need to load the configuration files from the
         // `config` folder in our project.
-
-        // First, we need to load the .env file.
-        $appEnv = env('APP_ENV', 'development');
-        if ($appEnv !== 'development') {
-            $envFile = '.env.' . $appEnv;
-        } else {
-            $envFile = '.env';
-        }
-        $this->installDotenv($projectRoot, $envFile);
 
         $config = [];
 
