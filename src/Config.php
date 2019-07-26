@@ -142,7 +142,7 @@ class Config extends Repository
     private function installDotenv($path, $envFile)
     {
         try {
-            (Dotenv::create($path))->load();
+            (Dotenv::create($path, $envFile))->load();
         } catch (InvalidPathException $e) {
             // Do nothing if the .env file is not present.
         }
