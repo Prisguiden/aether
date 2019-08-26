@@ -10,7 +10,6 @@ class RegisterProviders
     protected $aether;
 
     protected $frameworkProviders = [
-        \Aether\Providers\AetherConfigProvider::class,
         \Aether\Providers\LocalizationProvider::class,
         \Aether\Cache\CacheProvider::class,
         \Aether\Session\SessionProvider::class,

@@ -40,6 +40,12 @@ class Aether extends ServiceLocator
      */
     private $registeredProviders = [];
 
+    private $bootstrappers = [
+        \Aether\Bootstrap\HandleExceptions::class,
+        \Aether\Bootstrap\RegisterProviders::class,
+        \Aether\Bootstrap\BootProviders::class,
+    ];
+
     /**
      * @var string
      */
@@ -70,6 +76,13 @@ class Aether extends ServiceLocator
         $this->registerBaseProviders();
 
         $this->registerCoreContainerAliases();
+
+        $this->bootstrap();
+    }
+
+    public function bootstrap()
+    {
+        $this->bootstrapWith($this->bootstrappers);
     }
 
     public function bootstrapWith(array $bootstrappers)

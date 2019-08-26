@@ -9,7 +9,7 @@ class LocalizationProvider extends Provider
     public function boot()
     {
         $this->aether->instance('localization', new Localization(
-            $this->aether['aetherConfig']->getOptions(),
+            config('locale'),
             $this->aether['projectRoot'] . 'locale'
         ));
     }

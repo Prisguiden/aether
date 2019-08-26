@@ -15,12 +15,6 @@ class Kernel
 {
     protected $aether;
 
-    protected $bootstrappers = [
-        \Aether\Bootstrap\HandleExceptions::class,
-        \Aether\Bootstrap\RegisterProviders::class,
-        \Aether\Bootstrap\BootProviders::class,
-    ];
-
     public function __construct(Aether $aether)
     {
         $this->aether = $aether;
@@ -28,7 +22,9 @@ class Kernel
 
     public function bootstrap()
     {
-        $this->aether->bootstrapWith($this->bootstrappers);
+        $this->aether->registerProviders([
+            \Aether\Providers\AetherConfigProvider::class
+        ]);
     }
 
     public function handle(UrlParser $parsedUrl)
