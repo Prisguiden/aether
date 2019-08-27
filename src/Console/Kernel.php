@@ -34,10 +34,7 @@ class Kernel
      * @var array
      */
     protected $bootstrappers = [
-        \Aether\Bootstrap\HandleExceptions::class,
         \Aether\Bootstrap\SetRequestForConsole::class,
-        \Aether\Bootstrap\RegisterProviders::class,
-        \Aether\Bootstrap\BootProviders::class,
     ];
 
     public function __construct(Aether $aether, Dispatcher $events)
@@ -71,6 +68,9 @@ class Kernel
 
     public function bootstrap()
     {
+        $this->aether->registerProviders([
+            \Aether\Providers\AetherConfigProvider::class
+        ]);
         $this->aether->bootstrapWith($this->bootstrappers);
     }
 

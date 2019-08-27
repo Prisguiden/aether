@@ -15,6 +15,7 @@ class Config extends Repository
      * @var bool
      */
     protected $loadedFromCompiled = false;
+    private $configPath = null;
 
     /**
      * Create a new AetherAppConfig instance. This will automatically load the
@@ -24,7 +25,16 @@ class Config extends Repository
      */
     public function __construct(string $projectRoot)
     {
+        $projectRoot = rtrim($projectRoot, '/');
+        $this->configPath  = $projectRoot.'/config';
+
         parent::__construct($this->loadConfig($projectRoot));
+    }
+
+    public function reload()
+    {
+        $this->loadedFromCompiled = false;
+        $this->items = $this->loadConfigData();
     }
 
     /**
@@ -58,9 +68,6 @@ class Config extends Repository
      */
     private function loadConfig(string $projectRoot): array
     {
-        $projectRoot = rtrim($projectRoot, '/');
-        $configPath  = $projectRoot.'/config';
-
         // First, we need to load the .env file.
         $appEnv = env('APP_ENV', 'development');
         if ($appEnv !== 'development') {
@@ -70,21 +77,42 @@ class Config extends Repository
         }
         $this->installDotenv($projectRoot, $envFile);
 
+        return $this->loadConfigData();
+    }
+
+    private function loadConfigData()
+    {
+        $appEnv = env('APP_ENV', 'development');
         // If a `compiled.php` file exists, we'll use that.
         if ($appEnv === 'production') {
-            if (file_exists($compiled = $configPath.'/compiled.php')) {
-                $this->loadedFromCompiled = true;
-
-                return require $compiled;
+            if ($config = $this->loadConfigDataFromCache()) {
+                return $config;
             }
         }
 
         // Otherwise, we'll need to load the configuration files from the
         // `config` folder in our project.
+        $config = $this->loadConfigDataFromFiles();
 
+        return $config;
+    }
+
+    private function loadConfigDataFromCache()
+    {
+        if (file_exists($compiled = $this->configPath.'/compiled.php')) {
+            $this->loadedFromCompiled = true;
+
+            return require $compiled;
+        }
+
+        return null;
+    }
+
+    private function loadConfigDataFromFiles()
+    {
         $config = [];
 
-        foreach ($this->getSortedConfigFiles($configPath) as $path) {
+        foreach ($this->getSortedConfigFiles($this->configPath) as $path) {
             $parts = explode('.', basename($path, '.php'), 2);
 
             if (count($parts) === 2) {
@@ -97,7 +125,7 @@ class Config extends Repository
             // and load it.
             if (! $matchEnv) {
                 $config[$configName] = $this->requireFile(
-                    "{$configPath}/{$configName}.php"
+                    "{$this->configPath}/{$configName}.php"
                 );
             }
             // Otherwise, we'll check if the target environment matches the
@@ -105,7 +133,7 @@ class Config extends Repository
             elseif ($matchEnv === env('APP_ENV')) {
                 $config[$configName] = array_replace_recursive(
                     $config[$configName] ?? [],
-                    $this->requireFile("{$configPath}/{$configName}.{$matchEnv}.php")
+                    $this->requireFile("{$this->configPath}/{$configName}.{$matchEnv}.php")
                 );
             }
         }

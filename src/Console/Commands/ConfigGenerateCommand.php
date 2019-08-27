@@ -15,25 +15,12 @@ class ConfigGenerateCommand extends Command
     {
         $this->call('config:clear');
 
-        $aether = $this->freshAether();
-
-        $this->writeCompiledConfig($aether);
-        $this->writeAetherConfig($aether);
+        $this->writeCompiledConfig($this->aether);
+        $this->writeAetherConfig($this->aether);
 
         $this->info('Compiled configuration files have been generated.');
 
-        $this->info("Environment: {$aether['config']['app.env']}");
-    }
-
-    protected function freshAether()
-    {
-        $aether = new Aether($this->aether['projectRoot']);
-
-        $aether->bootstrapWith([
-            \Aether\Bootstrap\RegisterProviders::class,
-        ]);
-
-        return $aether;
+        $this->info("Environment: {$this->aether['config']['app.env']}");
     }
 
     protected function writeCompiledConfig($aether)
