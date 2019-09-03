@@ -20,8 +20,6 @@ class ConfigClearCommand extends Command
             unlink($file);
         }
 
-        $this->aether['config']->reload();
-
         $this->info('Config cleared.');
     }
 }
