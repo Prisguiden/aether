@@ -33,9 +33,7 @@ class ExceptionHandlerIntegrationTest extends TestCase
 
         $handler = m::mock(ExceptionHandler::class);
         $handler->shouldNotReceive('render');
-        $handler->shouldReceive('report')->with(m::type('ErrorException'), [
-            'tags' => ['new_error_exception' => 'yup'],
-        ]);
+        $handler->shouldReceive('report')->with(m::type('ErrorException'));
 
         foo;
     }

@@ -42,9 +42,7 @@ class HandleExceptions
             $errorException = new ErrorException($message, 0, $severity, $file, $line);
 
             if ($this->aether->isProduction()) {
-                $this->getHandler()->report($errorException, [
-                    'tags' => ['new_error_exception' => 'yup'],
-                ]);
+                $this->getHandler()->report($errorException);
             } else {
                 throw $errorException;
             }
