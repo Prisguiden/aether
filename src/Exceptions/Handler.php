@@ -48,6 +48,11 @@ class Handler implements ExceptionHandler
         // todo: figure out if we should also send to regular logs in prod
     }
 
+    public function shouldReport(Exception $e)
+    {
+        return true;
+    }
+
     /**
      * Render an exception into an HTTP response.
      *
