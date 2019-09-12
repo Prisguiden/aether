@@ -2,8 +2,6 @@
 
 namespace Aether\Providers;
 
-use Raven_Client;
-
 class SentryProvider extends Provider
 {
     public function register()
