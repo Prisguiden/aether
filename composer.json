@@ -6,6 +6,7 @@
     "require": {
         "php": ">=7.2",
         "filp/whoops": "^2.5",
+        "guzzlehttp/psr7": "^1.6",
         "illuminate/config": "^5.8",
         "illuminate/console": "^5.8",
         "illuminate/container": "^5.8",
@@ -15,6 +16,7 @@
         "illuminate/events": "^5.8",
         "illuminate/filesystem": "^5.8",
         "illuminate/support": "^5.8",
+        "php-http/curl-client": "^2.0",
         "sentry/sentry": "^2.1",
         "smarty/smarty": "^3.1",
         "symfony/var-dumper": "~3.0|~4.3",
