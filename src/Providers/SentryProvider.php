@@ -17,17 +17,19 @@ class SentryProvider extends Provider
     {
         $projectRoot = rtrim($aether['projectRoot'], '/');
 
-        return \Sentry\init([
-            'dsn' => config('app.sentry.dsn'),
+        return new Raven_Client(config('app.sentry.dsn'), [
             'environment' => config('app.env'),
-            'project_root' => $projectRoot,
+            'app_path' => $projectRoot,
             'prefixes' => [$projectRoot],
-            'in_app_exclude' => ["{$projectRoot}/vendor"],
-            'attach_stacktrace' => true,
+            'excluded_app_paths' => ["{$projectRoot}/vendor"],
+            'trace' => true,
             'release' => config('app.release'),
+            'curl_method' => 'sync',
+            'curl_ipv4' => false,
+            'trust_x_forwarded_proto' => true,
             'tags' => [
                 'php_version' => phpversion(),
-                'project_root' => $projectRoot
+                'project_root' => $projectRoot,
             ],
         ]);
     }
