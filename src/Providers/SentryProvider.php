@@ -2,6 +2,8 @@
 
 namespace Aether\Providers;
 
+use Sentry\ClientBuilder;
+
 class SentryProvider extends Provider
 {
     public function register()
@@ -15,7 +17,7 @@ class SentryProvider extends Provider
     {
         $projectRoot = rtrim($aether['projectRoot'], '/');
 
-        return \Sentry\init([
+        $client = ClientBuilder::create([
             'dsn' => config('app.sentry.dsn'),
             'environment' => config('app.env'),
             'project_root' => $projectRoot,
@@ -27,6 +29,8 @@ class SentryProvider extends Provider
                 'php_version' => phpversion(),
                 'project_root' => $projectRoot
             ],
-        ]);
+        ])->getClient();
+
+        return $client;
     }
 }

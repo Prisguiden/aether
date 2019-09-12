@@ -142,10 +142,8 @@ class Handler implements ExceptionHandler
 
     protected function reportInProduction(Exception $e, array $context = [])
     {
-        $eventId = $this->aether['sentry.client']->captureException(
-            $e,
-            $context + $this->getContext()
-        );
+        $client = $this->aether['sentry.client'];
+        $eventId = $client->captureException($e);
 
         $this->lastReportedId = $eventId;
     }
