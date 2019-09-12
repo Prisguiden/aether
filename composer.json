@@ -4,7 +4,7 @@
     "keywords": ["aether"],
     "license": "MIT",
     "require": {
-        "php": ">=7.2",
+        "php": ">=7.0",
         "filp/whoops": "^2.5",
         "illuminate/config": "^5.8",
         "illuminate/console": "^5.8",
