@@ -2,22 +2,14 @@
 
 namespace Aether\Providers;
 
-use Sentry\ClientBuilder;
+use Sentry;
 
 class SentryProvider extends Provider
 {
     public function register()
     {
-        $this->aether->singleton('sentry.client', function ($aether) {
-            return $this->getClient($aether);
-        });
-    }
-
-    protected function getClient($aether)
-    {
-        $projectRoot = rtrim($aether['projectRoot'], '/');
-
-        $client = ClientBuilder::create([
+        $projectRoot = rtrim($this->aether['projectRoot'], '/');
+        Sentry\init([
             'dsn' => config('app.sentry.dsn'),
             'environment' => config('app.env'),
             'project_root' => $projectRoot,
@@ -29,8 +21,6 @@ class SentryProvider extends Provider
                 'php_version' => phpversion(),
                 'project_root' => $projectRoot
             ],
-        ])->getClient();
-
-        return $client;
+        ]);
     }
 }

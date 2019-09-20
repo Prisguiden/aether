@@ -9,7 +9,7 @@ use Aether\Aether;
 use BadMethodCallException;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Contracts\Debug\ExceptionHandler;
-use Symfony\Component\Debug\Exception\FatalThrowableError;
+use Symfony\Component\ErrorHandler\Exception\FatalThrowableError;
 
 class Kernel
 {

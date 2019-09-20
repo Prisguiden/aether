@@ -9,7 +9,7 @@ use Aether\Aether;
 use Aether\UrlParser;
 use Aether\Response\ResponseFactory;
 use Illuminate\Contracts\Debug\ExceptionHandler;
-use Symfony\Component\Debug\Exception\FatalThrowableError;
+use Symfony\Component\ErrorHandler\Exception\FatalThrowableError;
 
 class Kernel
 {
@@ -39,6 +39,8 @@ class Kernel
             return $this->aether->call([ResponseFactory::createFromGlobals(), 'getResponse']);
         } catch (Throwable $e) {
             if ($e instanceof Error) {
+                print_r($e->getMessage());
+                echo 'yeboi';
                 $e = new FatalThrowableError($e);
             }
 

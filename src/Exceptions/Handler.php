@@ -4,12 +4,14 @@ namespace Aether\Exceptions;
 
 use Exception;
 use Aether\Aether;
+use Sentry;
 use Whoops\Run as Whoops;
 use Whoops\Handler\PrettyPageHandler;
 use Aether\PackageDiscovery\Discoverer;
 use Illuminate\Contracts\Debug\ExceptionHandler;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Application as ConsoleApplication;
+use Symfony\Component\ErrorHandler\Exception\FatalThrowableError;
 
 class Handler implements ExceptionHandler
 {
@@ -142,10 +144,20 @@ class Handler implements ExceptionHandler
 
     protected function reportInProduction(Exception $e, array $context = [])
     {
-        $client = $this->aether['sentry.client'];
-        $eventId = $client->captureException($e);
+        $extras = $context + $this->getContext();
+        Sentry\configureScope(function (Sentry\State\Scope $scope) use ($extras, $e): void {
+            foreach ($extras as $key => $value) {
+                $scope->setExtra($key, $value);
+            }
 
-        $this->lastReportedId = $eventId;
+            if ($e instanceof FatalThrowableError) {
+                $scope->setLevel(Sentry\Severity::fatal());
+            }
+        });
+
+        Sentry\captureException($e);
+
+        $this->lastReportedId = (Sentry\State\Hub::getCurrent())->getLastEventId();
     }
 
     protected function getContext()
