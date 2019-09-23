@@ -7,7 +7,6 @@ use Aether\Aether;
 use Sentry;
 use Whoops\Run as Whoops;
 use Whoops\Handler\PrettyPageHandler;
-use Aether\PackageDiscovery\Discoverer;
 use Illuminate\Contracts\Debug\ExceptionHandler;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Application as ConsoleApplication;
@@ -144,12 +143,7 @@ class Handler implements ExceptionHandler
 
     protected function reportInProduction(Exception $e, array $context = [])
     {
-        $extras = $context + $this->getContext();
-        Sentry\configureScope(function (Sentry\State\Scope $scope) use ($extras, $e): void {
-            foreach ($extras as $key => $value) {
-                $scope->setExtra($key, $value);
-            }
-
+        Sentry\configureScope(function (Sentry\State\Scope $scope) use ($e): void {
             if ($e instanceof FatalThrowableError) {
                 $scope->setLevel(Sentry\Severity::fatal());
             }
@@ -162,17 +156,6 @@ class Handler implements ExceptionHandler
 
     protected function getContext()
     {
-        return ['modules' => $this->getInstalledPackages()] + $this->context;
-    }
-
-    protected function getInstalledPackages()
-    {
-        $packages = [];
-
-        foreach ($this->aether->make(Discoverer::class)->getPackageVersions() as $package) {
-            $packages[$package['name']] = "{$package['version']} ({$package['reference']})";
-        }
-
-        return $packages;
+        return $this->context;
     }
 }
