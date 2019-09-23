@@ -14,8 +14,10 @@ class SentryProvider extends Provider
             'environment' => config('app.env'),
             'project_root' => $projectRoot,
             'prefixes' => [$projectRoot],
+            'default_integrations' => false,
             'integrations' => [
-                new Sentry\Integration\ModulesIntegration
+                new Sentry\Integration\RequestIntegration(),
+                new Sentry\Integration\ModulesIntegration()
             ],
             'in_app_exclude' => ["{$projectRoot}/vendor"],
             'attach_stacktrace' => true,
