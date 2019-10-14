@@ -39,8 +39,6 @@ class Kernel
             return $this->aether->call([ResponseFactory::createFromGlobals(), 'getResponse']);
         } catch (Throwable $e) {
             if ($e instanceof Error) {
-                print_r($e->getMessage());
-                echo 'yeboi';
                 $e = new FatalThrowableError($e);
             }
 
