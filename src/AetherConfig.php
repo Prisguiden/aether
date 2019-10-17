@@ -628,6 +628,15 @@ class AetherConfig
         return $this->cacheas;
     }
 
+    public function setCacheTime(int $cacheTime)
+    {
+        $this->cache = $cacheTime;
+    }
+    public function setCacheName(string $cacheName)
+    {
+        $this->cacheas = $cacheName;
+    }
+
     /**
      * Get requested control templates name
      *
