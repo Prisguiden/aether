@@ -133,6 +133,12 @@ class Handler implements ExceptionHandler
     {
         return tap(new PrettyPageHandler, function ($handler) {
             $handler->handleUnconditionally(true);
+            if ($mask = config('app.mask.env')) {
+                foreach ($mask as $m) {
+                    $handler->blacklist('_ENV', $m);
+                    $handler->blacklist('_SERVER', $m);
+                }
+            }
         });
     }
 
