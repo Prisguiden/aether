@@ -31,10 +31,12 @@ class SmartyTemplate extends Template
         $this->engine->config_dir = "{$base}/configs";
         $this->engine->cache_dir = "{$base}/cache";
 
-        $options = $this->sl->get('aetherConfig')->getOptions();
+        if ($this->sl->has('aetherConfig')) {
+            $options = $this->sl->get('aetherConfig');
 
-        if (isset($options['searchpath'])) {
-            $this->addPathsFromOptions($options['searchpath'], $projectRoot);
+            if (isset($options['searchpath'])) {
+                $this->addPathsFromOptions($options['searchpath'], $projectRoot);
+            }
         }
     }
 
