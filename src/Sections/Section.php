@@ -10,7 +10,7 @@ use Aether\Modules\Module;
 use Aether\Modules\ModuleFactory;
 use Aether\Exceptions\ConfigError;
 use Illuminate\Contracts\Debug\ExceptionHandler;
-use Symfony\Component\ErrorHandler\Exception\FatalThrowableError;
+use Symfony\Component\Debug\Exception\FatalThrowableError;
 use Aether\Exceptions\ServiceNotFound;
 use InvalidArgumentException;
 

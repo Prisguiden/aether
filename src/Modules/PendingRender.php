@@ -8,7 +8,7 @@ use Aether\Aether;
 use Aether\Config;
 use BadMethodCallException;
 use Illuminate\Contracts\Debug\ExceptionHandler;
-use Symfony\Component\ErrorHandler\Exception\FatalThrowableError;
+use Symfony\Component\Debug\Exception\FatalThrowableError;
 
 /**
  * This class is a wrapper around Aether Modules that will be rendered when

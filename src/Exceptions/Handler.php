@@ -10,7 +10,7 @@ use Whoops\Handler\PrettyPageHandler;
 use Illuminate\Contracts\Debug\ExceptionHandler;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Application as ConsoleApplication;
-use Symfony\Component\ErrorHandler\Exception\FatalThrowableError;
+use Symfony\Component\Debug\Exception\FatalThrowableError;
 
 class Handler implements ExceptionHandler
 {

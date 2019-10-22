@@ -9,7 +9,7 @@ use Aether\Aether;
 use Aether\UrlParser;
 use Aether\Response\ResponseFactory;
 use Illuminate\Contracts\Debug\ExceptionHandler;
-use Symfony\Component\ErrorHandler\Exception\FatalThrowableError;
+use Symfony\Component\Debug\Exception\FatalThrowableError;
 
 class Kernel
 {

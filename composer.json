@@ -19,6 +19,7 @@
         "php-http/curl-client": "^2.0",
         "sentry/sentry": "2.1.*",
         "smarty/smarty": "^3.1",
+        "symfony/debug": "^4.3",
         "symfony/error-handler": "^5.0@dev",
         "symfony/var-dumper": "^4.3",
         "vlucas/phpdotenv": "^3.6"
