@@ -26,15 +26,17 @@ class TemplateProvider extends Provider
 
     protected function getGlobalVariables($aether)
     {
-        $config = $aether['aetherConfig'];
-        $options = $config->getOptions();
-
         $variables = [];
 
-        $variables['base'] = $config->getBase();
-        $variables['root'] = $config->getRoot();
-        $variables['urlVars'] = $config->getUrlVars();
-        $variables['runningMode'] = $options['AetherRunningMode'] ?? 'test';
+        $config = $aether['aetherConfig'];
+        if ($config) {
+            $options = $config->getOptions();
+
+            $variables['base'] = $config->getBase();
+            $variables['root'] = $config->getRoot();
+            $variables['urlVars'] = $config->getUrlVars();
+            $variables['runningMode'] = $options['AetherRunningMode'] ?? 'test';
+        }
 
         if ($aether->bound('parsedUrl')) {
             $url = $aether['parsedUrl'];
