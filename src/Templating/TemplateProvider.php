@@ -28,10 +28,11 @@ class TemplateProvider extends Provider
     {
         $variables = [];
 
-        $config = $aether['aetherConfig'];
+        $config = $aether->get('aetherConfig');
         if ($config) {
             $options = $config->getOptions();
 
+            $variables['options'] = $options;
             $variables['base'] = $config->getBase();
             $variables['root'] = $config->getRoot();
             $variables['urlVars'] = $config->getUrlVars();
@@ -48,8 +49,6 @@ class TemplateProvider extends Provider
         if (isset($_SERVER['HTTP_REFERER'])) {
             $variables['referer'] = $_SERVER['HTTP_REFERER'];
         }
-
-        $variables['options'] = $options;
 
         return $variables;
     }
