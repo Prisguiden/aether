@@ -51,6 +51,11 @@ abstract class Section
      */
     protected $pageCacheTime;
 
+    /**
+     * Default to max 5s page cache when a module throws an exception
+     */
+    protected $maxPageCacheTimeWhenException = 5;
+
     public function __construct(Aether $aether)
     {
         $this->aether = $aether;
@@ -355,6 +360,10 @@ abstract class Section
 
         if (! $this->aether->isProduction()) {
             throw $e;
+        } else {
+            // Cap page cache time to a low setting if we threw an exception on a page
+            $this->pageCacheTime = min($this->pageCacheTime,
+                $this->maxPageCacheTimeWhenException);
         }
 
         resolve(ExceptionHandler::class)->report($e);
