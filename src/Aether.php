@@ -145,8 +145,11 @@ class Aether extends ServiceLocator
         $composer = json_decode(file_get_contents($projectRoot.'/composer.json'));
 
         foreach (data_get($composer, 'autoload.psr-4', []) as $namespace => $path) {
-            if (realpath($projectRoot.'/'.$path) === $projectRoot.'/src') {
-                return $this->namespace = $namespace;
+            if (strpos(realpath($projectRoot.'/'.$path), $projectRoot.'/src') === 0) {
+                return $this->namespace = [
+                    'name' => $namespace,
+                    'path' => $path
+                ];
             }
         }
 

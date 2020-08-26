@@ -47,13 +47,12 @@ class AetherCliProvider extends Provider
     protected function loadAppCommands($directory)
     {
         $namespace = $this->aether->getNamespace();
-        $srcPath = realpath($this->aether['projectRoot']).'/src';
 
         foreach (glob($directory.'/*.php') as $file) {
-            $command = $namespace.str_replace(
+            $command = $namespace['name'].str_replace(
                 ['/', '.php'],
                 ['\\', ''],
-                Str::after($file, $srcPath.'/')
+                Str::after($file, $this->aether['projectRoot'] . $namespace['path'])
             );
 
             if ($this->shouldLoad($command)) {
