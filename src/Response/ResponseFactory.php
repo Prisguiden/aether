@@ -47,7 +47,11 @@ class ResponseFactory
         }
 
         if (! is_null($this->requestedEsi)) {
-            return $this->getEsiResponse($section, $config);
+            try {
+                return $this->getEsiResponse($section, $config);
+            } catch (ServiceNotFound $e) {
+                return $section->triggerDefaultRule();
+            }
         }
 
         return $this->getDefaultResponse($section, $config->getOptions());
