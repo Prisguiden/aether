@@ -16,7 +16,7 @@
         "illuminate/events": "^5.8",
         "illuminate/filesystem": "^5.8",
         "illuminate/support": "^5.8",
-        "sentry/sdk": "^2.2",
+        "sentry/sdk": "^3.0",
         "smarty/smarty": "^3.1",
         "symfony/debug": "^4.3",
         "symfony/error-handler": "^5.0@dev",
