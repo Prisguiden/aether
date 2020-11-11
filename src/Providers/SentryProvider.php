@@ -12,13 +12,12 @@ class SentryProvider extends Provider
         Sentry\init([
             'dsn' => config('app.sentry.dsn'),
             'environment' => config('app.env'),
-            'project_root' => $projectRoot,
-            'prefixes' => [$projectRoot],
             'default_integrations' => false,
             'integrations' => [
                 new Sentry\Integration\RequestIntegration(),
                 new Sentry\Integration\ModulesIntegration()
             ],
+            'in_app_include' => [$projectRoot],
             'in_app_exclude' => ["{$projectRoot}/vendor"],
             'attach_stacktrace' => true,
             'release' => config('app.release'),
