@@ -155,9 +155,7 @@ class Handler implements ExceptionHandler
             }
         });
 
-        Sentry\captureException($e);
-
-        $this->lastReportedId = (Sentry\State\Hub::getCurrent())->getLastEventId();
+        $this->lastReportedId = Sentry\captureException($e);
     }
 
     protected function getContext()
