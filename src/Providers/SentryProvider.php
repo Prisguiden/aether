@@ -17,8 +17,12 @@ class SentryProvider extends Provider
                 new Sentry\Integration\RequestIntegration(),
                 new Sentry\Integration\ModulesIntegration()
             ],
-            'in_app_include' => [$projectRoot . "/src"],
-            'in_app_exclude' => [$projectRoot . "/vendor"],
+            'in_app_include' => array_map(function ($e) use ($projectRoot) {
+                return $projectRoot . $e;
+            }, config('app.sentry.include', ["/src"])),
+            'in_app_exclude' => array_map(function ($e) use ($projectRoot) {
+                return $projectRoot . $e;
+            }, config('app.sentry.exclude', ["/vendor"])),
             'attach_stacktrace' => true,
             'release' => config('app.release'),
             'tags' => [
