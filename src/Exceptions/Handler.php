@@ -153,9 +153,8 @@ class Handler implements ExceptionHandler
             if ($e instanceof FatalThrowableError) {
                 $scope->setLevel(Sentry\Severity::fatal());
             }
+            $this->lastReportedId = Sentry\captureException($e);
         });
-
-        $this->lastReportedId = Sentry\captureException($e);
     }
 
     protected function getContext()

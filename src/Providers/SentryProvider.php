@@ -17,8 +17,8 @@ class SentryProvider extends Provider
                 new Sentry\Integration\RequestIntegration(),
                 new Sentry\Integration\ModulesIntegration()
             ],
-            'in_app_include' => [$projectRoot],
-            'in_app_exclude' => ["{$projectRoot}/vendor"],
+            'in_app_include' => [$projectRoot . "/src"],
+            'in_app_exclude' => [$projectRoot . "/vendor"],
             'attach_stacktrace' => true,
             'release' => config('app.release'),
             'tags' => [
