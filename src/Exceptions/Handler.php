@@ -2,7 +2,7 @@
 
 namespace Aether\Exceptions;
 
-use Exception;
+use Throwable;
 use Aether\Aether;
 use Sentry;
 use Whoops\Run as Whoops;
@@ -38,18 +38,18 @@ class Handler implements ExceptionHandler
      * @param  array  $context = []
      * @return void
      */
-    public function report(Exception $e, array $context = [])
+    public function report(Throwable $e)
     {
         if ($this->aether->isProduction()) {
-            $this->reportInProduction($e, $context);
+            $this->reportInProduction($e);
         } else {
-            $this->reportInDevelopment($e, $context);
+            $this->reportInDevelopment($e);
         }
 
         // todo: figure out if we should also send to regular logs in prod
     }
 
-    public function shouldReport(Exception $e)
+    public function shouldReport(Throwable $e)
     {
         return true;
     }
@@ -61,7 +61,7 @@ class Handler implements ExceptionHandler
      * @param  \Exception  $e
      * @return \Aether\Response\Response
      */
-    public function render($request, Exception $e)
+    public function render($request, Throwable $e)
     {
         $response = new ExceptionResponse($e, $this->getLastReportedId());
 
@@ -81,7 +81,7 @@ class Handler implements ExceptionHandler
      * @param  \Exception  $e
      * @return void
      */
-    public function renderForConsole($output, Exception $e)
+    public function renderForConsole($output, Throwable $e)
     {
         if (! $this->aether->isProduction()) {
             $output->setVerbosity(OutputInterface::VERBOSITY_DEBUG);
@@ -111,14 +111,14 @@ class Handler implements ExceptionHandler
         return $this->lastReportedId;
     }
 
-    protected function responseForProduction(Exception $e)
+    protected function responseForProduction(Throwable $e)
     {
         $id = $this->getLastReportedId();
 
         return "<h1>Noe gikk galt</h1>".($id ? "<p>ID: <code>{$id}</code></p>" : "");
     }
 
-    protected function responseForDevelopment(Exception $e)
+    protected function responseForDevelopment(Throwable $e)
     {
         return tap(new Whoops, function ($whoops) {
             $whoops->pushHandler($this->getWhoopsHandler());
@@ -142,12 +142,12 @@ class Handler implements ExceptionHandler
         });
     }
 
-    protected function reportInDevelopment(Exception $e, array $context = [])
+    protected function reportInDevelopment(Throwable $e)
     {
         // todo: write to some log file?
     }
 
-    protected function reportInProduction(Exception $e, array $context = [])
+    protected function reportInProduction(Throwable $e)
     {
         Sentry\configureScope(function (Sentry\State\Scope $scope) use ($e): void {
             if ($e instanceof FatalThrowableError) {
