@@ -21,7 +21,7 @@
         "symfony/debug": "^4.3",
         "symfony/error-handler": "^5.0@dev",
         "symfony/var-dumper": "^4.3",
-        "vlucas/phpdotenv": "^3.6"
+        "vlucas/phpdotenv": "^4.0"
     },
     "require-dev": {
         "mockery/mockery": "^1.0",
