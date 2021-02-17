@@ -83,11 +83,11 @@ class Handler implements ExceptionHandler
      */
     public function renderForConsole($output, Throwable $e)
     {
-        if (! $this->aether->isProduction()) {
+        if (!$this->aether->isProduction()) {
             $output->setVerbosity(OutputInterface::VERBOSITY_DEBUG);
         }
 
-        (new ConsoleApplication)->renderException($e, $output);
+        (new ConsoleApplication)->renderThrowable($e, $output);
     }
 
     /**
@@ -115,7 +115,7 @@ class Handler implements ExceptionHandler
     {
         $id = $this->getLastReportedId();
 
-        return "<h1>Noe gikk galt</h1>".($id ? "<p>ID: <code>{$id}</code></p>" : "");
+        return "<h1>Noe gikk galt</h1>" . ($id ? "<p>ID: <code>{$id}</code></p>" : "");
     }
 
     protected function responseForDevelopment(Throwable $e)
