@@ -37,10 +37,18 @@ class Discoverer
 
     protected function mapInstalledPackages($callback)
     {
-        return array_map($callback, $this->getInstalledPackages());
+        $installed = $this->getInstalled();
+        if (is_array($installed)) {
+            // composer 1.x
+            $packages = $installed;
+        } else {
+            // composer 2.x
+            $packages = $installed->packages;
+        }
+        return array_map($callback, $packages);
     }
 
-    protected function getInstalledPackages()
+    protected function getInstalled()
     {
         $path = $this->vendorPath('composer/installed.json');
 
