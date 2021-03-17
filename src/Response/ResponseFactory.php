@@ -36,7 +36,11 @@ class ResponseFactory
     {
         if (! is_null($this->requestedService) && ! is_null($this->requestedModule)) {
             try {
-                return $section->service($this->requestedModule, $this->requestedService);
+                $response = $section->service($this->requestedModule, $this->requestedService);
+                if ($response === null) {
+                    return $section->triggerDefaultRule();
+                }
+                return $response;
             } catch (ServiceNotFound $e) {
                 return $section->triggerDefaultRule();
             }
