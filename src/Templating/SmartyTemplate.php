@@ -25,7 +25,7 @@ class SmartyTemplate extends Template
 
         $this->engine->addTemplateDir($base = "{$projectRoot}/templates");
 
-        $this->engine->error_reporting = E_ALL ^ E_NOTICE;
+        $this->engine->error_reporting = E_ALL & ~E_NOTICE & ~E_WARNING;
         $this->engine->plugins_dir = [SMARTY_SYSPLUGINS_DIR, SMARTY_PLUGINS_DIR, $base];
         $this->engine->compile_dir = "{$base}/compiled";
         $this->engine->config_dir = "{$base}/configs";
